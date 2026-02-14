@@ -14,6 +14,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Intro */
 #intro {
     position: fixed;
     width: 100%;
@@ -34,9 +35,9 @@ body {
     font-size: 18px;
     border-radius: 30px;
     cursor: pointer;
-    margin-top: 20px;
 }
 
+/* Stars */
 .star {
     position: fixed;
     width: 2px;
@@ -54,6 +55,21 @@ section {
     padding: 80px 20px;
 }
 
+img {
+    width: 320px;
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 0 0 30px rgba(212,175,55,0.4);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+}
+
+img.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 button {
     padding: 12px 25px;
     background: #d4af37;
@@ -65,13 +81,6 @@ button {
 
 button:hover {
     background: #f5d78e;
-}
-
-img {
-    width: 300px;
-    border-radius: 20px;
-    margin: 20px;
-    box-shadow: 0 0 25px rgba(212,175,55,0.4);
 }
 
 .heart {
@@ -97,7 +106,7 @@ img {
 
 <div id="intro">
     <h1>For My Princess ❤️</h1>
-    <p>Some things are worth waiting for...</p>
+    <p>Turn your volume on.</p>
     <button onclick="startExperience()">Enter</button>
 </div>
 
@@ -105,11 +114,20 @@ img {
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="voiceMessage">
+    <source src="voice.mp3" type="audio/mpeg">
+</audio>
+
 <div id="mainContent" class="hidden">
 
 <section>
     <h1>Happy Valentine’s Day</h1>
     <p>Across oceans and time zones… you are still my home.</p>
+</section>
+
+<section>
+    <h2>Listen First 🎙️</h2>
+    <button onclick="playVoice()">Play My Message</button>
 </section>
 
 <section>
@@ -121,13 +139,13 @@ img {
 <section>
     <h2>Your Cuteness 🥺</h2>
     <img src="cute.jpg">
-    <p>The way you laugh, the way you react, the way you exist… dangerously adorable.</p>
+    <p>The way you laugh, react, exist… dangerously adorable.</p>
 </section>
 
 <section>
     <h2>Your Style 💎</h2>
     <img src="style.jpg">
-    <p>You don’t just walk into rooms — you own them.</p>
+    <p>You don’t walk into rooms. You own them.</p>
 </section>
 
 <section>
@@ -139,61 +157,13 @@ img {
 <section>
     <h2>Your Body 🔥</h2>
     <img src="body.jpg">
-    <p>Elegant. Confident. Powerful. You carry yourself like royalty.</p>
-</section>
-
-<section>
-    <h2>Ultimate Couple Quiz 💘</h2>
-    <div id="quizContainer">
-        <p id="quizQuestion"></p>
-        <button onclick="answer()">Perfect Answer</button>
-        <button onclick="answer()">Also Perfect</button>
-    </div>
-</section>
-
-<section>
-    <h2>Choose Our Future 🌍</h2>
-    <button onclick="future('Paris')">Paris</button>
-    <button onclick="future('Tokyo')">Tokyo</button>
-    <button onclick="future('Lisbon')">Lisbon</button>
-    <p id="futureResult"></p>
-</section>
-
-<section>
-    <h2>Spin The Love Wheel 🎡</h2>
-    <button onclick="spinWheel()">Spin</button>
-    <p id="wheelResult"></p>
-</section>
-
-<section>
-    <h2>Scratch To Reveal 🎁</h2>
-    <div onclick="revealSurprise()" 
-         style="width:300px;height:100px;background:#444;
-         margin:20px auto;line-height:100px;
-         border-radius:15px;cursor:pointer;">
-         Scratch Here
-    </div>
-    <p id="surpriseMessage"></p>
+    <p>Elegant. Confident. Powerful. Royal energy.</p>
 </section>
 
 <section>
     <h2>Tonight’s Movie 🎬</h2>
     <h3>Before Sunrise (1995)</h3>
-    <p>Because one day we won’t just talk about meeting in a city… we’ll actually be there.</p>
-</section>
-
-<section>
-    <h2>A Poem For You 💌</h2>
-    <p>
-    Across the miles and midnight skies,<br><br>
-    You are the calm within my tides.<br><br>
-    Not just a voice across a screen,<br>
-    But the most beautiful thing I’ve ever seen.<br><br>
-    And when the oceans lose their space,<br>
-    It’s your hand I want to embrace.<br><br>
-    Happy Valentine’s Day, my Princess.<br>
-    I love you — endlessly.
-    </p>
+    <p>Because one day… we won’t just imagine it.</p>
 </section>
 
 <section>
@@ -205,12 +175,14 @@ img {
 
 <script>
 
+/* Start */
 function startExperience() {
     document.getElementById("intro").style.display = "none";
     document.getElementById("mainContent").classList.remove("hidden");
     document.getElementById("bgMusic").play();
 }
 
+/* Stars */
 for (let i = 0; i < 200; i++) {
     let star = document.createElement("div");
     star.classList.add("star");
@@ -219,6 +191,7 @@ for (let i = 0; i < 200; i++) {
     document.body.appendChild(star);
 }
 
+/* Hearts */
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -230,70 +203,28 @@ function createHeart() {
 }
 setInterval(createHeart, 1200);
 
-let score = 0;
-let currentQuestion = 0;
-
-const questions = [
-    "Who said I love you first?",
-    "Who is more dramatic?",
-    "Who gives better hugs?",
-    "Who misses the other more?",
-    "Where should we travel first?",
-    "Who is the lucky one?",
-    "What song represents us?",
-    "Who is cuter?",
-    "Who fell harder?",
-    "Are we forever?"
-];
-
-function loadQuestion() {
-    if (currentQuestion < questions.length) {
-        document.getElementById("quizQuestion").innerText = questions[currentQuestion];
-    } else {
-        document.getElementById("quizContainer").innerHTML =
-        "<h3>Soulmate Mode Activated ❤️</h3><p>You scored " + score + "/10</p>";
-    }
+/* Voice */
+function playVoice() {
+    document.getElementById("voiceMessage").play();
 }
 
-function answer() {
-    score++;
-    currentQuestion++;
-    loadQuestion();
-}
-
-window.onload = loadQuestion;
-
-function future(city) {
-    document.getElementById("futureResult").innerText =
-    "Perfect. I’ll meet you in " + city + ". It’s a date ❤️";
-}
-
-const wheelOptions = [
-    "You owe me a kiss 😌",
-    "Movie night winner 🎬",
-    "Future trip unlocked ✈️",
-    "You plan the next date 💌",
-    "Dance break time 💃",
-    "Say something cute right now ❤️"
-];
-
-function spinWheel() {
-    const random = wheelOptions[Math.floor(Math.random() * wheelOptions.length)];
-    document.getElementById("wheelResult").innerText = random;
-}
-
-function revealSurprise() {
-    document.getElementById("surpriseMessage").innerText =
-    "One day this distance will be just a story we tell ❤️";
-}
-
+/* Scroll reveal animation */
 window.addEventListener("scroll", function() {
+    let images = document.querySelectorAll("img");
+    images.forEach(img => {
+        let position = img.getBoundingClientRect().top;
+        if (position < window.innerHeight - 100) {
+            img.classList.add("visible");
+        }
+    });
+
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         document.getElementById("endingText").innerText =
         "To be continued... in the same city one day ❤️";
     }
 });
 
+/* Hidden double click */
 document.addEventListener("dblclick", function() {
     alert("Plot twist: I’m still falling for you ❤️");
 });
