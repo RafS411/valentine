@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Intro */
 #intro {
     position: fixed;
     width: 100%;
@@ -59,14 +58,6 @@ img {
     border-radius: 20px;
     margin: 20px;
     box-shadow: 0 0 25px rgba(212,175,55,0.4);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s ease;
-}
-
-img.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 button {
@@ -82,21 +73,22 @@ button:hover {
     background: #f5d78e;
 }
 
-.heart {
-    position: fixed;
-    bottom: -10px;
-    font-size: 18px;
-    animation: floatUp 10s linear infinite;
-    color: rgba(255,215,0,0.5);
-}
-
-@keyframes floatUp {
-    0% {transform: translateY(0); opacity: 1;}
-    100% {transform: translateY(-100vh); opacity: 0;}
-}
-
 .hidden {
     display: none;
+}
+
+#loveBarContainer {
+    width: 60%;
+    margin: 20px auto;
+    background: #333;
+    border-radius: 20px;
+}
+
+#loveBar {
+    height: 20px;
+    width: 0%;
+    background: gold;
+    border-radius: 20px;
 }
 </style>
 </head>
@@ -139,31 +131,31 @@ button:hover {
 <section>
     <h2>Your Smile ✨</h2>
     <img src="smile.jpg">
-    <p>Your smile is my favorite notification in the world.</p>
+    <p>Your smile is my favorite notification.</p>
 </section>
 
 <section>
     <h2>Your Cuteness 🥺</h2>
     <img src="cute.jpg">
-    <p>The way you laugh, react, exist… dangerously adorable.</p>
+    <p>Dangerously adorable energy.</p>
 </section>
 
 <section>
     <h2>Your Style 💎</h2>
     <img src="style.jpg">
-    <p>You don’t walk into rooms. You own them.</p>
+    <p>You walk like confidence itself.</p>
 </section>
 
 <section>
     <h2>Your Beauty ❤️</h2>
     <img src="beauty.jpg">
-    <p>You are art. Effortlessly stunning.</p>
+    <p>You are art in motion.</p>
 </section>
 
 <section>
     <h2>Your Body 🔥</h2>
     <img src="body.jpg">
-    <p>Elegant. Confident. Powerful. Royal energy.</p>
+    <p>Elegant. Powerful. Royal.</p>
 </section>
 
 <section>
@@ -171,19 +163,36 @@ button:hover {
     <div id="quizContainer">
         <p id="quizQuestion"></p>
         <button onclick="answer()">Perfect Answer</button>
-        <button onclick="answer()">Also Perfect</button>
     </div>
+    <div id="loveBarContainer">
+        <div id="loveBar"></div>
+    </div>
+    <p id="quizResult"></p>
+</section>
+
+<section>
+    <h2>Game Time 🎮</h2>
+    <a href="https://kahoot.it/" target="_blank">
+        <button>Start Kahoot</button>
+    </a>
+</section>
+
+<section>
+    <h2>A Poem For You 💌</h2>
+    <p>
+    Across the miles and midnight skies,<br><br>
+    You are the calm within my tides.<br><br>
+    Not just a voice across a screen,<br>
+    But the most beautiful thing I’ve ever seen.<br><br>
+    Happy Valentine’s Day, my Princess.<br>
+    I love you — endlessly.
+    </p>
 </section>
 
 <section>
     <h2>Tonight’s Movie 🎬</h2>
     <h3>Before Sunrise (1995)</h3>
-    <p>Because one day… we won’t just imagine it.</p>
-</section>
-
-<section>
-    <h2>Final Chapter 🎬</h2>
-    <p id="endingText"></p>
+    <p>Because one day we won’t just imagine it.</p>
 </section>
 
 </div>
@@ -194,8 +203,12 @@ function startExperience() {
     document.getElementById("intro").style.display = "none";
     document.getElementById("mainContent").classList.remove("hidden");
     const music = document.getElementById("bgMusic");
-    music.volume = 0.25;  // LOWER MUSIC
+    music.volume = 0.25;
     music.play();
+}
+
+function playVoice() {
+    document.getElementById("voiceMessage").play();
 }
 
 /* Stars */
@@ -207,40 +220,7 @@ for (let i = 0; i < 200; i++) {
     document.body.appendChild(star);
 }
 
-/* Hearts */
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 6 + 6) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 12000);
-}
-setInterval(createHeart, 1200);
-
-/* Voice */
-function playVoice() {
-    document.getElementById("voiceMessage").play();
-}
-
-/* Scroll animation */
-window.addEventListener("scroll", function() {
-    let images = document.querySelectorAll("img");
-    images.forEach(img => {
-        let position = img.getBoundingClientRect().top;
-        if (position < window.innerHeight - 100) {
-            img.classList.add("visible");
-        }
-    });
-
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        document.getElementById("endingText").innerText =
-        "To be continued... in the same city one day ❤️";
-    }
-});
-
-/* QUIZ */
+/* Quiz System */
 let score = 0;
 let currentQuestion = 0;
 
@@ -251,32 +231,30 @@ const questions = [
     "Who misses the other more?",
     "Where should we travel first?",
     "Who is the lucky one?",
-    "What song represents us?",
     "Who is cuter?",
     "Who fell harder?",
-    "Are we forever?"
+    "Are we forever?",
+    "Are we unstoppable?"
 ];
 
 function loadQuestion() {
     if (currentQuestion < questions.length) {
         document.getElementById("quizQuestion").innerText = questions[currentQuestion];
     } else {
-        document.getElementById("quizContainer").innerHTML =
-        "<h3>Soulmate Mode Activated ❤️</h3><p>You scored " + score + "/10</p>";
+        document.getElementById("quizQuestion").innerText = "";
+        document.getElementById("quizResult").innerText =
+        "Soulmate Mode Activated ❤️ You scored " + score + "/10";
     }
 }
 
 function answer() {
     score++;
     currentQuestion++;
+    document.getElementById("loveBar").style.width = (score * 10) + "%";
     loadQuestion();
 }
 
 window.onload = loadQuestion;
-
-document.addEventListener("dblclick", function() {
-    alert("Plot twist: I’m still falling for you ❤️");
-});
 
 </script>
 
