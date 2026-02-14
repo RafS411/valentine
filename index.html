@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>For My Princess ❤️</title>
@@ -7,68 +7,258 @@
 <style>
 body {
     margin: 0;
-    font-family: Georgia, serif;
-    background: #0b0f2b;
-    color: gold;
+    font-family: 'Georgia', serif;
+    background: radial-gradient(circle at bottom, #0b0f2b 0%, #050816 70%);
+    color: #f5d78e;
     text-align: center;
+    overflow-x: hidden;
+}
+
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    color: #f5d78e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+}
+
+#intro button {
+    padding: 15px 35px;
+    background: #d4af37;
+    border: none;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    from {opacity: 0.3;}
+    to {opacity: 1;}
 }
 
 section {
-    padding: 60px 20px;
+    padding: 80px 20px;
 }
 
 img {
     width: 300px;
+    border-radius: 20px;
     margin: 20px;
-    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(212,175,55,0.4);
 }
 
 button {
-    padding: 12px 20px;
-    background: gold;
+    padding: 12px 25px;
+    background: #d4af37;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #f5d78e;
+}
+
+.hidden {
+    display: none;
+}
+
+#loveBarContainer {
+    width: 60%;
+    margin: 20px auto;
+    background: #333;
+    border-radius: 20px;
+}
+
+#loveBar {
+    height: 20px;
+    width: 0%;
+    background: gold;
+    border-radius: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Happy Valentine’s Day ❤️</h1>
+<div id="intro">
+    <h1>For My Princess ❤️</h1>
+    <p>Turn your volume on.</p>
+    <button onclick="startExperience()">Enter</button>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="voiceMessage">
+    <source src="voice.mp3" type="audio/mpeg">
+</audio>
+
+<div id="mainContent" class="hidden">
 
 <section>
-<h2>Our Memories</h2>
-<img src="photo1.jpg">
-<img src="photo2.jpg">
-<img src="photo3.jpg">
+    <h1>Happy Valentine’s Day</h1>
+    <p>Across oceans and time zones… you are still my home.</p>
 </section>
 
 <section>
-<h2>Your Smile</h2>
-<img src="smile.jpg">
+    <h2>Our Memories 📸</h2>
+    <img src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
 </section>
 
 <section>
-<h2>Your Cuteness</h2>
-<img src="cute.jpg">
+    <h2>Listen First 🎙️</h2>
+    <button onclick="playVoice()">Play My Message</button>
 </section>
 
 <section>
-<h2>Your Style</h2>
-<img src="style.jpg">
+    <h2>Your Smile ✨</h2>
+    <img src="smile.jpg">
+    <p>Your smile is my favorite notification.</p>
 </section>
 
 <section>
-<h2>Your Beauty</h2>
-<img src="beauty.jpg">
+    <h2>Your Cuteness 🥺</h2>
+    <img src="cute.jpg">
+    <p>Dangerously adorable energy.</p>
 </section>
 
 <section>
-<h2>Your Body</h2>
-<img src="body.jpg">
+    <h2>Your Style 💎</h2>
+    <img src="style.jpg">
+    <p>You walk like confidence itself.</p>
 </section>
+
+<section>
+    <h2>Your Beauty ❤️</h2>
+    <img src="beauty.jpg">
+    <p>You are art in motion.</p>
+</section>
+
+<section>
+    <h2>Your Body 🔥</h2>
+    <img src="body.jpg">
+    <p>Elegant. Powerful. Royal.</p>
+</section>
+
+<section>
+    <h2>Ultimate Couple Quiz 💘</h2>
+    <div id="quizContainer">
+        <p id="quizQuestion"></p>
+        <button onclick="answer()">Perfect Answer</button>
+    </div>
+    <div id="loveBarContainer">
+        <div id="loveBar"></div>
+    </div>
+    <p id="quizResult"></p>
+</section>
+
+<section>
+    <h2>Game Time 🎮</h2>
+    <a href="https://kahoot.it/" target="_blank">
+        <button>Start Kahoot</button>
+    </a>
+</section>
+
+<section>
+    <h2>A Poem For You 💌</h2>
+    <p>
+    Across the miles and midnight skies,<br><br>
+    You are the calm within my tides.<br><br>
+    Not just a voice across a screen,<br>
+    But the most beautiful thing I’ve ever seen.<br><br>
+    Happy Valentine’s Day, my Princess.<br>
+    I love you — endlessly.
+    </p>
+</section>
+
+<section>
+    <h2>Tonight’s Movie 🎬</h2>
+    <h3>Before Sunrise (1995)</h3>
+    <p>Because one day we won’t just imagine it.</p>
+</section>
+
+</div>
+
+<script>
+
+function startExperience() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("mainContent").classList.remove("hidden");
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.25;
+    music.play();
+}
+
+function playVoice() {
+    document.getElementById("voiceMessage").play();
+}
+
+/* Stars */
+for (let i = 0; i < 200; i++) {
+    let star = document.createElement("div");
+    star.classList.add("star");
+    star.style.top = Math.random() * 100 + "vh";
+    star.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(star);
+}
+
+/* Quiz System */
+let score = 0;
+let currentQuestion = 0;
+
+const questions = [
+    "Who said I love you first?",
+    "Who is more dramatic?",
+    "Who gives better hugs?",
+    "Who misses the other more?",
+    "Where should we travel first?",
+    "Who is the lucky one?",
+    "Who is cuter?",
+    "Who fell harder?",
+    "Are we forever?",
+    "Are we unstoppable?"
+];
+
+function loadQuestion() {
+    if (currentQuestion < questions.length) {
+        document.getElementById("quizQuestion").innerText = questions[currentQuestion];
+    } else {
+        document.getElementById("quizQuestion").innerText = "";
+        document.getElementById("quizResult").innerText =
+        "Soulmate Mode Activated ❤️ You scored " + score + "/10";
+    }
+}
+
+function answer() {
+    score++;
+    currentQuestion++;
+    document.getElementById("loveBar").style.width = (score * 10) + "%";
+    loadQuestion();
+}
+
+window.onload = loadQuestion;
+
+</script>
 
 </body>
 </html>
+
 
