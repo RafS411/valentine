@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Intro Screen */
 #intro {
     position: fixed;
     width: 100%;
@@ -38,7 +37,6 @@ body {
     margin-top: 20px;
 }
 
-/* Stars */
 .star {
     position: fixed;
     width: 2px;
@@ -56,10 +54,6 @@ section {
     padding: 80px 20px;
 }
 
-h1, h2 {
-    letter-spacing: 2px;
-}
-
 button {
     padding: 12px 25px;
     background: #d4af37;
@@ -74,22 +68,12 @@ button:hover {
 }
 
 img {
-    width: 280px;
-    border-radius: 15px;
-    margin: 15px;
+    width: 300px;
+    border-radius: 20px;
+    margin: 20px;
     box-shadow: 0 0 25px rgba(212,175,55,0.4);
 }
 
-.fade-in {
-    animation: fade 2s ease-in;
-}
-
-@keyframes fade {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-/* Floating Hearts */
 .heart {
     position: fixed;
     bottom: -10px;
@@ -123,33 +107,73 @@ img {
 
 <div id="mainContent" class="hidden">
 
-<section class="fade-in">
+<section>
     <h1>Happy Valentine’s Day</h1>
     <p>Across oceans and time zones… you are still my home.</p>
 </section>
 
 <section>
-    <h2>Our Story 📸</h2>
-    <img src="photo1.jpg">
-    <img src="photo2.jpg">
-    <img src="photo3.jpg">
-    <p>Every memory with you is golden.</p>
+    <h2>Your Smile ✨</h2>
+    <img src="smile.jpg">
+    <p>Your smile is my favorite notification in the world.</p>
 </section>
 
 <section>
-    <h2>Couple Quiz 💘</h2>
-    <p>Who loves the other more?</p>
-    <button onclick="quiz()">You</button>
-    <button onclick="quiz()">Me</button>
-    <p id="quizResult"></p>
+    <h2>Your Cuteness 🥺</h2>
+    <img src="cute.jpg">
+    <p>The way you laugh, the way you react, the way you exist… dangerously adorable.</p>
 </section>
 
 <section>
-    <h2>Game Time 🎮</h2>
-    <p>Let’s play together.</p>
-    <a href="https://kahoot.it/" target="_blank">
-        <button>Start Kahoot</button>
-    </a>
+    <h2>Your Style 💎</h2>
+    <img src="style.jpg">
+    <p>You don’t just walk into rooms — you own them.</p>
+</section>
+
+<section>
+    <h2>Your Beauty ❤️</h2>
+    <img src="beauty.jpg">
+    <p>You are art. Effortlessly stunning.</p>
+</section>
+
+<section>
+    <h2>Your Body 🔥</h2>
+    <img src="body.jpg">
+    <p>Elegant. Confident. Powerful. You carry yourself like royalty.</p>
+</section>
+
+<section>
+    <h2>Ultimate Couple Quiz 💘</h2>
+    <div id="quizContainer">
+        <p id="quizQuestion"></p>
+        <button onclick="answer()">Perfect Answer</button>
+        <button onclick="answer()">Also Perfect</button>
+    </div>
+</section>
+
+<section>
+    <h2>Choose Our Future 🌍</h2>
+    <button onclick="future('Paris')">Paris</button>
+    <button onclick="future('Tokyo')">Tokyo</button>
+    <button onclick="future('Lisbon')">Lisbon</button>
+    <p id="futureResult"></p>
+</section>
+
+<section>
+    <h2>Spin The Love Wheel 🎡</h2>
+    <button onclick="spinWheel()">Spin</button>
+    <p id="wheelResult"></p>
+</section>
+
+<section>
+    <h2>Scratch To Reveal 🎁</h2>
+    <div onclick="revealSurprise()" 
+         style="width:300px;height:100px;background:#444;
+         margin:20px auto;line-height:100px;
+         border-radius:15px;cursor:pointer;">
+         Scratch Here
+    </div>
+    <p id="surpriseMessage"></p>
 </section>
 
 <section>
@@ -172,19 +196,22 @@ img {
     </p>
 </section>
 
+<section>
+    <h2>Final Chapter 🎬</h2>
+    <p id="endingText"></p>
+</section>
+
 </div>
 
 <script>
 
-/* Start Experience */
 function startExperience() {
     document.getElementById("intro").style.display = "none";
     document.getElementById("mainContent").classList.remove("hidden");
     document.getElementById("bgMusic").play();
 }
 
-/* Stars */
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < 200; i++) {
     let star = document.createElement("div");
     star.classList.add("star");
     star.style.top = Math.random() * 100 + "vh";
@@ -192,7 +219,6 @@ for (let i = 0; i < 150; i++) {
     document.body.appendChild(star);
 }
 
-/* Floating Hearts */
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -204,49 +230,72 @@ function createHeart() {
 }
 setInterval(createHeart, 1200);
 
-/* Quiz */
-function quiz() {
-    document.getElementById("quizResult").innerHTML =
-    "Correct answer: We both love each other endlessly ❤️";
+let score = 0;
+let currentQuestion = 0;
+
+const questions = [
+    "Who said I love you first?",
+    "Who is more dramatic?",
+    "Who gives better hugs?",
+    "Who misses the other more?",
+    "Where should we travel first?",
+    "Who is the lucky one?",
+    "What song represents us?",
+    "Who is cuter?",
+    "Who fell harder?",
+    "Are we forever?"
+];
+
+function loadQuestion() {
+    if (currentQuestion < questions.length) {
+        document.getElementById("quizQuestion").innerText = questions[currentQuestion];
+    } else {
+        document.getElementById("quizContainer").innerHTML =
+        "<h3>Soulmate Mode Activated ❤️</h3><p>You scored " + score + "/10</p>";
+    }
 }
 
-/* Hidden Double Click Surprise */
-document.addEventListener("dblclick", function() {
-    alert("No matter the distance… I choose you. Every time. ❤️");
-});
+function answer() {
+    score++;
+    currentQuestion++;
+    loadQuestion();
+}
 
-/* Scroll Hidden Message */
+window.onload = loadQuestion;
+
+function future(city) {
+    document.getElementById("futureResult").innerText =
+    "Perfect. I’ll meet you in " + city + ". It’s a date ❤️";
+}
+
+const wheelOptions = [
+    "You owe me a kiss 😌",
+    "Movie night winner 🎬",
+    "Future trip unlocked ✈️",
+    "You plan the next date 💌",
+    "Dance break time 💃",
+    "Say something cute right now ❤️"
+];
+
+function spinWheel() {
+    const random = wheelOptions[Math.floor(Math.random() * wheelOptions.length)];
+    document.getElementById("wheelResult").innerText = random;
+}
+
+function revealSurprise() {
+    document.getElementById("surpriseMessage").innerText =
+    "One day this distance will be just a story we tell ❤️";
+}
+
 window.addEventListener("scroll", function() {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        alert("You found the hidden ending… Our best chapter hasn’t even started yet ❤️");
+        document.getElementById("endingText").innerText =
+        "To be continued... in the same city one day ❤️";
     }
 });
 
-/* Angola to Taiwan Love Line */
-let line = document.createElement("div");
-line.style.position = "fixed";
-line.style.top = "50%";
-line.style.left = "10%";
-line.style.width = "80%";
-line.style.height = "2px";
-line.style.background = "linear-gradient(to right, gold, transparent)";
-line.style.opacity = "0.2";
-document.body.appendChild(line);
-
-/* Glowing Cursor */
-document.addEventListener("mousemove", function(e) {
-    let glow = document.createElement("div");
-    glow.style.position = "fixed";
-    glow.style.width = "8px";
-    glow.style.height = "8px";
-    glow.style.borderRadius = "50%";
-    glow.style.background = "gold";
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
-    glow.style.opacity = "0.6";
-    glow.style.pointerEvents = "none";
-    document.body.appendChild(glow);
-    setTimeout(() => glow.remove(), 300);
+document.addEventListener("dblclick", function() {
+    alert("Plot twist: I’m still falling for you ❤️");
 });
 
 </script>
