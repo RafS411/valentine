@@ -37,7 +37,6 @@ body {
     cursor: pointer;
 }
 
-/* Stars */
 .star {
     position: fixed;
     width: 2px;
@@ -56,10 +55,10 @@ section {
 }
 
 img {
-    width: 320px;
+    width: 300px;
     border-radius: 20px;
     margin: 20px;
-    box-shadow: 0 0 30px rgba(212,175,55,0.4);
+    box-shadow: 0 0 25px rgba(212,175,55,0.4);
     opacity: 0;
     transform: translateY(30px);
     transition: all 1s ease;
@@ -126,6 +125,13 @@ button:hover {
 </section>
 
 <section>
+    <h2>Our Memories 📸</h2>
+    <img src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
+</section>
+
+<section>
     <h2>Listen First 🎙️</h2>
     <button onclick="playVoice()">Play My Message</button>
 </section>
@@ -161,6 +167,15 @@ button:hover {
 </section>
 
 <section>
+    <h2>Ultimate Couple Quiz 💘</h2>
+    <div id="quizContainer">
+        <p id="quizQuestion"></p>
+        <button onclick="answer()">Perfect Answer</button>
+        <button onclick="answer()">Also Perfect</button>
+    </div>
+</section>
+
+<section>
     <h2>Tonight’s Movie 🎬</h2>
     <h3>Before Sunrise (1995)</h3>
     <p>Because one day… we won’t just imagine it.</p>
@@ -175,11 +190,12 @@ button:hover {
 
 <script>
 
-/* Start */
 function startExperience() {
     document.getElementById("intro").style.display = "none";
     document.getElementById("mainContent").classList.remove("hidden");
-    document.getElementById("bgMusic").play();
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.25;  // LOWER MUSIC
+    music.play();
 }
 
 /* Stars */
@@ -208,7 +224,7 @@ function playVoice() {
     document.getElementById("voiceMessage").play();
 }
 
-/* Scroll reveal animation */
+/* Scroll animation */
 window.addEventListener("scroll", function() {
     let images = document.querySelectorAll("img");
     images.forEach(img => {
@@ -224,7 +240,40 @@ window.addEventListener("scroll", function() {
     }
 });
 
-/* Hidden double click */
+/* QUIZ */
+let score = 0;
+let currentQuestion = 0;
+
+const questions = [
+    "Who said I love you first?",
+    "Who is more dramatic?",
+    "Who gives better hugs?",
+    "Who misses the other more?",
+    "Where should we travel first?",
+    "Who is the lucky one?",
+    "What song represents us?",
+    "Who is cuter?",
+    "Who fell harder?",
+    "Are we forever?"
+];
+
+function loadQuestion() {
+    if (currentQuestion < questions.length) {
+        document.getElementById("quizQuestion").innerText = questions[currentQuestion];
+    } else {
+        document.getElementById("quizContainer").innerHTML =
+        "<h3>Soulmate Mode Activated ❤️</h3><p>You scored " + score + "/10</p>";
+    }
+}
+
+function answer() {
+    score++;
+    currentQuestion++;
+    loadQuestion();
+}
+
+window.onload = loadQuestion;
+
 document.addEventListener("dblclick", function() {
     alert("Plot twist: I’m still falling for you ❤️");
 });
